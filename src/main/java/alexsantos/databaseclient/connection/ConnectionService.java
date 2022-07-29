@@ -11,18 +11,22 @@ public class ConnectionService implements ConnectionDao {
     public static Database database;
 
     @Override
-    public String connectDatabase(ConnectionRequest request) {
-        if(request.connect()) {
+    public String connectDatabase(ConnectionRequest req) {
+        if(req.connect()) {
             database = new Database(
-                    request.connection().host(),
-                    request.connection().port(),
-                    request.optionals().database(),
-                    request.connection().user(),
-                    request.connection().pass()
+                    req.connection().host(),
+                    req.connection().port(),
+                    req.optionals().database(),
+                    req.connection().user(),
+                    req.connection().pass()
             );
 
-            if(request.server().equals("postgresql")) {
+            if(req.server().equals("postgresql")) {
                 database.openConnection(DatabasePlatform.POSTGRESQL);
+            }
+
+            if(req.server().equals("oracle")) {
+                database.openConnection(DatabasePlatform.ORACLE);
             }
         }
 

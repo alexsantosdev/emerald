@@ -1,6 +1,8 @@
 package alexsantos.databaseclient.database;
 
 import alexsantos.databaseclient.enums.DatabasePlatform;
+import oracle.jdbc.OracleDriver;
+
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -83,10 +85,13 @@ public class Database {
             String url;
             switch (dPlatform) {
                 case MYSQL -> {
+                    //Class.forName("com.mysql.jdbc.Driver");
                     url = "jdbc:mysql://" + getHost() + ":" + getPort() + "/" + getDatabase() + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
                     this.setConnection(DriverManager.getConnection(url, this.getUser(), this.getPass()));
                 }
                 case ORACLE -> {
+                    //Class.forName("oracle.jdbc.driver.OracleDriver");
+                    DriverManager.registerDriver(new OracleDriver());
                     url = "jdbc:oracle:thin:@//" + getHost() + ":" + getPort() + "/" + getDatabase();
                     this.setConnection(DriverManager.getConnection(url, this.getUser(), this.getPass()));
                 }
@@ -122,6 +127,15 @@ public class Database {
         }catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public ResultSet executeQuery() {
+        try{
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public CachedRowSet select(String sql) {
